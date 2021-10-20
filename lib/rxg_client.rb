@@ -228,10 +228,10 @@ class RxgClient
 end
 
 class RxgError < StandardError
-  attr_reader :response_info
+  attr_reader :response_body
 
-  def initialize(msg, response_info='')
-    @response_info = response_info
+  def initialize(msg, response_body=nil)
+    @response_body = response_body
     super(msg)
   end
 end
