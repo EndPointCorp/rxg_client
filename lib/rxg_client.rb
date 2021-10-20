@@ -124,7 +124,7 @@ class RxgClient
         self.response_headers = response.headers
         self.parse(response.body)
       else
-        raise RxgError.new(response.message, self.parse(response.body))
+        raise RxgError.new(response.message, response.body)
       end
     end
   end
