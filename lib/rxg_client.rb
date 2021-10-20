@@ -124,7 +124,7 @@ class RxgClient
         self.response_headers = response.headers
         self.parse(response.body)
       else
-        raise(response.message)
+        raise RxgError.new(response.message, self.parse(response.body))
       end
     end
   end
@@ -225,4 +225,13 @@ class RxgClient
     raise exception if instance.raise_exceptions
   end
 
+end
+
+class RxgError < StandardError
+  attr_reader :response_info
+
+  def initialize(msg, response_info='')
+    @response_info = response_info
+    super(msg)
+  end
 end
