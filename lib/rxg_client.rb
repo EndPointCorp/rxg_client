@@ -124,7 +124,13 @@ class RxgClient
         self.response_headers = response.headers
         self.parse(response.body)
       else
-        raise RxgError.new(response.message, response.body)
+        body_parsed = nil
+        begin
+          body_parsed = self.parse(response.body)
+        rescue
+          # Leave body_parsed as nil
+        end
+        raise RxgError.new(response.message, response.body, body_parsed)
       end
     end
   end
@@ -229,9 +235,11 @@ end
 
 class RxgError < StandardError
   attr_reader :response_body
+  attr_reader :response_body_parsed
 
-  def initialize(msg, response_body=nil)
+  def initialize(msg, response_body=nil, response_body_parsed=nil)
     @response_body = response_body
+    @response_body_parsed = response_body_parsed
     super(msg)
   end
 end
